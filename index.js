@@ -32,7 +32,7 @@ async function run() {
       .collection("HighRatedGames");
 
     app.get("/highRatedGames", async (req, res) => {
-      const cursor = GameLoomCollection.find();
+      const cursor = GameLoomCollection.find().sort({ rating: -1 }).limit(6);
       const result = await cursor.toArray();
       res.send(result);
     });
