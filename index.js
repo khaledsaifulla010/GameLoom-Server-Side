@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const app = express();
 
@@ -36,6 +36,14 @@ async function run() {
         .sort({ rating: -1 })
         .limit(6);
       const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // GET HIGHEST RATED SINGLE GAME INFO //
+    app.get("/highRatedGames/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await HighRatedGamesCollection.findOne(query);
       res.send(result);
     });
 
