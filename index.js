@@ -50,6 +50,18 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+
+    // GET TOP PLAYERS GAME REVIEW //
+
+    const TopPlayerGameReviewCollection = client
+      .db("GameLoom")
+      .collection("TopPlayerGameReview");
+
+    app.get("/topPlayerGameReview", async (req, res) => {
+      const cursor = TopPlayerGameReviewCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
   } finally {
   }
 }
