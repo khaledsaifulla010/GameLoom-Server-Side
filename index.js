@@ -27,12 +27,26 @@ async function run() {
   try {
     // GET HIGHEST RATED GAMES //
 
-    const GameLoomCollection = client
+    const HighRatedGamesCollection = client
       .db("GameLoom")
       .collection("HighRatedGames");
 
     app.get("/highRatedGames", async (req, res) => {
-      const cursor = GameLoomCollection.find().sort({ rating: -1 }).limit(6);
+      const cursor = HighRatedGamesCollection.find()
+        .sort({ rating: -1 })
+        .limit(6);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // GET COMMING SOON GAMES //
+
+    const ComingSoonGamesCollection = client
+      .db("GameLoom")
+      .collection("ComingSoonGames");
+
+    app.get("/comingSoonGames", async (req, res) => {
+      const cursor = ComingSoonGamesCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
