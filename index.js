@@ -84,10 +84,10 @@ async function run() {
     // GET SINGLE GAME DETAILS IN MONGODB USING EMAIL //
 
     app.get("/myWatchlist", async (req, res) => {
-      const email = req.query.email;
+      const userEmail = req.query.userEmail;
 
-      const result = await MyGameWatchListCollection.find({ email })
-        .sort({ gameName: 1 })
+      const result = await MyGameWatchListCollection.find({ userEmail })
+        .sort({ userEmail: 1 })
         .toArray();
       res.send(result);
     });
