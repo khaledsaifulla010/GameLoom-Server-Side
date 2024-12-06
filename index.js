@@ -71,6 +71,14 @@ async function run() {
       res.send(result);
     });
 
+    // GET REVIEWS ROM MONGODB //
+
+    app.get("/reviews", async (req, res) => {
+      const cursor = ReviewsCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     // POST NEW REVIEW IN MONGODB //
 
     const ReviewsCollection = client.db("GameLoom").collection("Reviews");
