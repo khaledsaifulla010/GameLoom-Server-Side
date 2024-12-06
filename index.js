@@ -81,6 +81,17 @@ async function run() {
       res.send(result);
     });
 
+    // GET SINGLE GAME DETAILS IN MONGODB USING EMAIL //
+
+    app.get("/myWatchlist", async (req, res) => {
+      const email = req.query.email;
+
+      const result = await MyGameWatchListCollection.find({ email })
+        .sort({ gameName: 1 })
+        .toArray();
+      res.send(result);
+    });
+
     // POST NEW REVIEW IN MONGODB //
 
     const ReviewsCollection = client.db("GameLoom").collection("Reviews");
@@ -96,7 +107,6 @@ async function run() {
     const MyGameWatchListCollection = client
       .db("GameLoom")
       .collection("GameWatchlist");
-
     app.post("/myWatchlist", async (req, res) => {
       const myWatchList = req.body;
       const result = await MyGameWatchListCollection.insertOne(myWatchList);
