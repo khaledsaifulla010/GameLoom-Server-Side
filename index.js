@@ -70,6 +70,16 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+
+    // POST NEW REVIEW IN MONGODB //
+
+    const ReviewsCollection = client.db("GameLoom").collection("Reviews");
+
+    app.post("/reviews", async (req, res) => {
+      const newReview = req.body;
+      const result = await ReviewsCollection.insertOne(newReview);
+      res.send(result);
+    });
   } finally {
   }
 }
