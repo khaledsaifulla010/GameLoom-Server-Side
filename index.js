@@ -27,23 +27,17 @@ async function run() {
   try {
     // GET HIGHEST RATED GAMES //
 
-    const HighRatedGamesCollection = client
-      .db("GameLoom")
-      .collection("HighRatedGames");
-
-    app.get("/highRatedGames", async (req, res) => {
-      const cursor = HighRatedGamesCollection.find()
-        .sort({ rating: -1 })
-        .limit(6);
+    app.get("/reviews", async (req, res) => {
+      const cursor = ReviewsCollection.find().sort({ rating: -1 }).limit(6);
       const result = await cursor.toArray();
       res.send(result);
     });
 
     // GET HIGHEST RATED SINGLE GAME INFO //
-    app.get("/highRatedGames/:id", async (req, res) => {
+    app.get("/reviews/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
-      const result = await HighRatedGamesCollection.findOne(query);
+      const result = await ReviewsCollection.findOne(query);
       res.send(result);
     });
 
@@ -71,11 +65,19 @@ async function run() {
       res.send(result);
     });
 
-    // GET REVIEWS ROM MONGODB //
+    // GET REVIEWS FROM MONGODB //
 
     app.get("/reviews", async (req, res) => {
       const cursor = ReviewsCollection.find();
       const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // GET SINGLE REVIEW INFO //
+    app.get("/reviews/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await ReviewsCollection.findOne(query);
       res.send(result);
     });
 
@@ -86,6 +88,18 @@ async function run() {
     app.post("/reviews", async (req, res) => {
       const newReview = req.body;
       const result = await ReviewsCollection.insertOne(newReview);
+      res.send(result);
+    });
+
+    // POST SINGLE GAME DETAILS IN MONGODB //
+
+    const MyGameWatchListCollection = client
+      .db("GameLoom")
+      .collection("GameWatchlist");
+
+    app.post("/myWatchlist", async (req, res) => {
+      const myWatchList = req.body;
+      const result = await MyGameWatchListCollection.insertOne(myWatchList);
       res.send(result);
     });
   } finally {
