@@ -27,8 +27,16 @@ async function run() {
   try {
     // GET HIGHEST RATED GAMES //
 
-    app.get("/reviews", async (req, res) => {
+    app.get("/reviews/highest", async (req, res) => {
       const cursor = ReviewsCollection.find().sort({ rating: -1 }).limit(6);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // GET ALL REVIEWS //
+
+    app.get("/reviews", async (req, res) => {
+      const cursor = ReviewsCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
@@ -94,13 +102,13 @@ async function run() {
 
     // GET SINGLE USERS REVIEWS FROM MONGODB USING EMAIL //
 
-    app.get("/reviews", async (req, res) => {
-      const email = req.query.email;
-      const result = await ReviewsCollection.find({ email })
-        .sort({ gameName: 1 })
-        .toArray();
-      res.send(result);
-    });
+    // app.get("/reviews", async (req, res) => {
+    //   const email = req.query.email;
+    //   const result = await ReviewsCollection.find({ email })
+    //     .sort({ gameName: 1 })
+    //     .toArray();
+    //   res.send(result);
+    // });
 
     // POST NEW REVIEW IN MONGODB //
 
