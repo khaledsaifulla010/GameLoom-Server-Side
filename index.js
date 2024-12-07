@@ -130,6 +130,28 @@ async function run() {
       const result = await MyGameWatchListCollection.insertOne(myWatchList);
       res.send(result);
     });
+
+    //UPDATE A REVIEW //
+
+    app.put("/reviews/:id", async (req, res) => {
+      const { id } = req.params;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updatedReview = req.body;
+      const review = {
+        $set: {
+          gameName: updatedReview.gameName,
+          genreSelect: updatedReview.genreSelect,
+          publicationYear: updatedReview.publicationYear,
+          reviewDescription: updatedReview.reviewDescription,
+          rating: updatedReview.rating,
+          gameThumbnail: updatedReview.gameThumbnail,
+        },
+      };
+
+      const result = await ReviewsCollection.updateOne(filter, review, options);
+      res.send(result);
+    });
   } finally {
   }
 }
