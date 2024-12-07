@@ -148,8 +148,16 @@ async function run() {
           gameThumbnail: updatedReview.gameThumbnail,
         },
       };
-
       const result = await ReviewsCollection.updateOne(filter, review, options);
+      res.send(result);
+    });
+
+    // DELETE A REVIEW //
+
+    app.delete("/reviews/:id", async (req, res) => {
+      const { id } = req.params;
+      const query = { _id: new ObjectId(id) };
+      const result = await ReviewsCollection.deleteOne(query);
       res.send(result);
     });
   } finally {
