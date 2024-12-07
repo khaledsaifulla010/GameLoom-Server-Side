@@ -92,6 +92,16 @@ async function run() {
       res.send(result);
     });
 
+    // GET SINGLE USERS REVIEWS FROM MONGODB USING EMAIL //
+
+    app.get("/reviews", async (req, res) => {
+      const email = req.query.email;
+      const result = await ReviewsCollection.find({ email })
+        .sort({ gameName: 1 })
+        .toArray();
+      res.send(result);
+    });
+
     // POST NEW REVIEW IN MONGODB //
 
     const ReviewsCollection = client.db("GameLoom").collection("Reviews");
